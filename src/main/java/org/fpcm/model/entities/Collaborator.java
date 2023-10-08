@@ -3,7 +3,7 @@ package org.fpcm.model.entities;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.fpcm.model.enums.PasswordStrengthEnum;
+import org.fpcm.model.enums.PasswordComplexityEnum;
 
 @Entity
 @Getter
@@ -19,7 +19,7 @@ public class Collaborator {
 	private String password;
 
 	@Transient
-	private PasswordStrengthEnum passStrength;
+	private PasswordComplexityEnum passStrength;
 
 	private int passwordScore;
 
@@ -28,7 +28,7 @@ public class Collaborator {
 	@ManyToOne
 	private Collaborator manager;
 
-	public PasswordStrengthEnum getPassStrength() {
-		return PasswordStrengthEnum.getByScore(this.getPasswordScore());
+	public PasswordComplexityEnum getPassStrength() {
+		return PasswordComplexityEnum.getByScore(this.getPasswordScore());
 	}
 }
