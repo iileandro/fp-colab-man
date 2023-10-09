@@ -58,7 +58,7 @@ public class CollaboratorService {
 
 
 	private void saveRoutines(Collaborator collaborator) {
-		repository.saveAndFlush(collaborator); // so we'll be able to get id in the next routine when inserting.
+		collaborator = repository.saveAndFlush(collaborator); // so we'll be able to get id in the next routine when inserting.
 		proccessPassword(collaborator);
 		if(collaborator.getManagerId() != null && collaborator.getManagerId() > 0){
 			collaborator.setManager(findById(collaborator.getManagerId()));

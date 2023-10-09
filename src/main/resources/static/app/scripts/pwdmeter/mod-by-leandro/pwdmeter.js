@@ -134,7 +134,7 @@ function checkAndRankSymbolsNumericLowerAndUper(typedTxt, result) {
 
 function checkAndRankSequentials(typedTxt, result, options) {
     // Check for sequential alpha string patterns (forward and reverse)
-    for (let s = 0; s < 23; s++) {
+    for (let s = 0; s < (ALPHAS.length - options.multSeqAlpha); s++) {
         const sFwd = ALPHAS.substring(s, (s + options.multSeqAlpha));
         const sRev = sFwd.strReverse();
         if (typedTxt.toLowerCase().indexOf(sFwd) !== -1 || typedTxt.toLowerCase().indexOf(sRev) !== -1) {
@@ -144,7 +144,7 @@ function checkAndRankSequentials(typedTxt, result, options) {
     }
 
     // Check for sequential numeric string patterns (forward and reverse)
-    for (let s = 0; s < 8; s++) {
+    for (let s = 0; s < (SYMBOLS.length - options.multSeqNumber); s++) {
         const sFwd = NUMERICS.substring(s, (s + options.multSeqNumber));
         const sRev = sFwd.strReverse();
         if (typedTxt.toLowerCase().indexOf(sFwd) !== -1 || typedTxt.toLowerCase().indexOf(sRev) !== -1) {
@@ -154,8 +154,8 @@ function checkAndRankSequentials(typedTxt, result, options) {
     }
 
     // Check for sequential symbol string patterns (forward and reverse)
-    for (let s = 0; s < 8; s++) {
-        const sFwd = SYMBOLS.substring(s, (s + options.multSymbol));
+    for (let s = 0; s < (SYMBOLS.length - options.multSeqSymbol); s++) {
+        const sFwd = SYMBOLS.substring(s, (s + options.multSeqSymbol));
         const sRev = sFwd.strReverse();
         if (typedTxt.toLowerCase().indexOf(sFwd) !== -1 || typedTxt.toLowerCase().indexOf(sRev) !== -1) {
             result.inputs.deductions.sequentialSymbols++;

@@ -17,7 +17,6 @@ public class PasswordChecker {
 	private static final String ALPHAS = "abcdefghijklmnopqrstuvwxyz";
 	private static final String NUMERICS = "01234567890";
 	private static final String SYMBOLS = ")!@#$%^&*()";
-	private static final PasswordCheckOptions DEFAULT_OPTIONS = new PasswordCheckOptions(8, 3, 3, 3, 4, 4, 6, 2, 2, 2, 2);
 
 	public static PasswordChecker getInstance() {
 		return INSTANCE;
@@ -28,7 +27,7 @@ public class PasswordChecker {
 	}
 
 	public PasswordCheckResult execute(String typedTxt) {
-		return execute(typedTxt, DEFAULT_OPTIONS);
+		return execute(typedTxt,  new PasswordCheckOptions());
 	}
 
 	public PasswordCheckResult execute(String typedTxt, PasswordCheckOptions options) {
@@ -57,48 +56,48 @@ public class PasswordChecker {
 
 			if (Pattern.matches("[A-Z]", currentCharStr)) {
 				if (nTmpAlphaUC != null && (nTmpAlphaUC + 1) == a) {
-					result.getInputs().getDeductions().setConsecutiveUpper(result.getInputs().getDeductions().getConsecutiveUpper() + 1);
+					result.getCount().getDeductions().setConsecutiveUpper(result.getCount().getDeductions().getConsecutiveUpper() + 1);
 				}
 				nTmpAlphaUC = a;
-				result.getInputs().getAddictions().setUpperLetters(result.getInputs().getAddictions().getUpperLetters() + 1);
+				result.getCount().getAddictions().setUpperLetters(result.getCount().getAddictions().getUpperLetters() + 1);
 			} else if (Pattern.matches("[a-z]", currentCharStr)) {
 				if (nTmpAlphaLC != null && (nTmpAlphaLC + 1) == a) {
-					result.getInputs().getDeductions().setConsecutiveLower(result.getInputs().getDeductions().getConsecutiveLower() + 1);
+					result.getCount().getDeductions().setConsecutiveLower(result.getCount().getDeductions().getConsecutiveLower() + 1);
 				}
 				nTmpAlphaLC = a;
-				result.getInputs().getAddictions().setLowerLetters(result.getInputs().getAddictions().getLowerLetters() + 1);
+				result.getCount().getAddictions().setLowerLetters(result.getCount().getAddictions().getLowerLetters() + 1);
 			} else if (Pattern.matches("[0-9]", currentCharStr)) {
 				if (a > 0 && a < (arrPwdLen - 1)) {
-					result.getInputs().getAddictions().setMiddleNumbersOrSymbols(result.getInputs().getAddictions().getMiddleNumbersOrSymbols() + 1);
+					result.getCount().getAddictions().setMiddleNumbersOrSymbols(result.getCount().getAddictions().getMiddleNumbersOrSymbols() + 1);
 				}
 				if (nTmpNumber != null && (nTmpNumber + 1) == a) {
-					result.getInputs().getDeductions().setConsecutiveNumbers(result.getInputs().getDeductions().getConsecutiveNumbers() + 1);
+					result.getCount().getDeductions().setConsecutiveNumbers(result.getCount().getDeductions().getConsecutiveNumbers() + 1);
 				}
 				nTmpNumber = a;
-				result.getInputs().getAddictions().setNumbers(result.getInputs().getAddictions().getNumbers() + 1);
+				result.getCount().getAddictions().setNumbers(result.getCount().getAddictions().getNumbers() + 1);
 			} else if (Pattern.matches("[^a-zA-Z0-9_]", currentCharStr)) {
 				if (a > 0 && a < (arrPwdLen - 1)) {
-					result.getInputs().getAddictions().setMiddleNumbersOrSymbols(result.getInputs().getAddictions().getMiddleNumbersOrSymbols() + 1);
+					result.getCount().getAddictions().setMiddleNumbersOrSymbols(result.getCount().getAddictions().getMiddleNumbersOrSymbols() + 1);
 				}
-				result.getInputs().getAddictions().setSymbols(result.getInputs().getAddictions().getSymbols() + 1);
+				result.getCount().getAddictions().setSymbols(result.getCount().getAddictions().getSymbols() + 1);
 			}
 
 			boolean bCharExists = false;
 			for (int b = 0; b < arrPwdLen; b++) {
 				if (currentChar == arrPwd[b] && a != b) {
 					bCharExists = true;
-					result.getInputs().getControls().setNRepInc(result.getInputs().getControls().getNRepInc() + Math.abs(arrPwdLen / (b - a)));
+					result.getCount().getControls().setNRepInc(result.getCount().getControls().getNRepInc() + Math.abs(((double) arrPwdLen / (double)(b - a))));
 				}
 			}
 			if (bCharExists) {
-				result.getInputs().getDeductions().setRepeatChars(result.getInputs().getDeductions().getRepeatChars() + 1);
-				int nUnqChar = arrPwdLen - result.getInputs().getDeductions().getRepeatChars();
-				result.getInputs().getControls().setNRepInc(
-						(int) ((nUnqChar > 0)
+				result.getCount().getDeductions().setRepeatChars(result.getCount().getDeductions().getRepeatChars() + 1);
+				int nUnqChar = arrPwdLen - result.getCount().getDeductions().getRepeatChars();
+				result.getCount().getControls().setNRepInc(
+							((nUnqChar > 0)
 								?
-								Math.ceil((double) result.getInputs().getControls().getNRepInc() / (double) nUnqChar)
+								Math.ceil(result.getCount().getControls().getNRepInc() / nUnqChar)
 								:
-								result.getInputs().getControls().getNRepInc()
+								Math.ceil(result.getCount().getControls().getNRepInc())
 						)
 				);
 			}
@@ -106,30 +105,30 @@ public class PasswordChecker {
 	}
 
 	private void checkAndRankSequentials(String typedTxt, PasswordCheckResult result, PasswordCheckOptions options) {
-		for (int s = 0; s <= ALPHAS.length() - options.getMultSeqAlpha(); s++) {
+		for (int s = 0; s < ALPHAS.length() - options.getMultSeqAlpha(); s++) {
 			String sFwd = limitedSubstr(ALPHAS, s, options.getMultSeqAlpha());
 			String sRev = new StringBuilder(sFwd).reverse().toString();
 			if (typedTxt.toLowerCase().contains(sFwd) || typedTxt.toLowerCase().contains(sRev)) {
-				result.getInputs().getDeductions().setSequentialLetters(result.getInputs().getDeductions().getSequentialLetters() + 1);
-				result.getInputs().getControls().setNSeqChar(result.getInputs().getControls().getNSeqChar() + 1);
+				result.getCount().getDeductions().setSequentialLetters(result.getCount().getDeductions().getSequentialLetters() + 1);
+				result.getCount().getControls().setNSeqChar(result.getCount().getControls().getNSeqChar() + 1);
 			}
 		}
 
-		for (int s = 0; s <= NUMERICS.length() - options.getMultSeqNumber(); s++) {
+		for (int s = 0; s < NUMERICS.length() - options.getMultSeqNumber(); s++) {
 			String sFwd = limitedSubstr(NUMERICS, s, options.getMultSeqNumber());
 			String sRev = new StringBuilder(sFwd).reverse().toString();
 			if (typedTxt.toLowerCase().contains(sFwd) || typedTxt.toLowerCase().contains(sRev)) {
-				result.getInputs().getDeductions().setSequentialNumbers(result.getInputs().getDeductions().getSequentialNumbers() + 1);
-				result.getInputs().getControls().setNSeqChar(result.getInputs().getControls().getNSeqChar() + 1);
+				result.getCount().getDeductions().setSequentialNumbers(result.getCount().getDeductions().getSequentialNumbers() + 1);
+				result.getCount().getControls().setNSeqChar(result.getCount().getControls().getNSeqChar() + 1);
 			}
 		}
 
-		for (int s = 0; s <= SYMBOLS.length() - options.getMultSymbol(); s++) {
-			String sFwd = limitedSubstr(SYMBOLS, s, options.getMultSymbol());
+		for (int s = 0; s < SYMBOLS.length() - options.getMultSeqSymbol(); s++) {
+			String sFwd = limitedSubstr(SYMBOLS, s, options.getMultSeqSymbol());
 			String sRev = new StringBuilder(sFwd).reverse().toString();
 			if (typedTxt.toLowerCase().contains(sFwd) || typedTxt.toLowerCase().contains(sRev)) {
-				result.getInputs().getDeductions().setSequentialSymbols(result.getInputs().getDeductions().getSequentialSymbols() + 1);
-				result.getInputs().getControls().setNSeqChar(result.getInputs().getControls().getNSeqChar() + 1);
+				result.getCount().getDeductions().setSequentialSymbols(result.getCount().getDeductions().getSequentialSymbols() + 1);
+				result.getCount().getControls().setNSeqChar(result.getCount().getControls().getNSeqChar() + 1);
 			}
 		}
 	}
@@ -139,56 +138,74 @@ public class PasswordChecker {
 	}
 
 	private void modifyOverallScore(PasswordCheckResult result, PasswordCheckOptions options) {
-		PasswordCheckAddictions addictions = result.getInputs().getAddictions();
-		PasswordCheckDeductions deductions = result.getInputs().getDeductions();
+		PasswordCheckAddictions addictions = result.getCount().getAddictions();
+		PasswordCheckDeductions deductions = result.getCount().getDeductions();
 
+		// ADDICTIONS...
 		if (addictions.getUpperLetters() > 0 && addictions.getUpperLetters() < addictions.getNumberOfChars()) {
-			result.setScore(result.getScore() + ((addictions.getNumberOfChars() - addictions.getUpperLetters()) * 2));
+			result.getBonus().getAddictions().setUpperLetters(((addictions.getNumberOfChars() - addictions.getUpperLetters()) * 2));
+			result.setScore(result.getScore() + result.getBonus().getAddictions().getUpperLetters());
 		}
 		if (addictions.getLowerLetters() > 0 && addictions.getLowerLetters() < addictions.getNumberOfChars()) {
-			result.setScore(result.getScore() + ((addictions.getNumberOfChars() - addictions.getLowerLetters()) * 2));
+			result.getBonus().getAddictions().setLowerLetters(((addictions.getNumberOfChars() - addictions.getLowerLetters()) * 2));
+			result.setScore(result.getScore() + result.getBonus().getAddictions().getLowerLetters());
 		}
 		if (addictions.getNumbers() > 0 && addictions.getNumbers() < addictions.getNumberOfChars()) {
-			result.setScore(result.getScore() + (addictions.getNumbers() * options.getMultNumber()));
+			result.getBonus().getAddictions().setNumbers((addictions.getNumbers() * options.getMultNumber()));
+			result.setScore(result.getScore() + result.getBonus().getAddictions().getNumbers());
 		}
 		if (addictions.getSymbols() > 0) {
-			result.setScore(result.getScore() + (addictions.getSymbols() * options.getMultSymbol()));
+			result.getBonus().getAddictions().setSymbols((addictions.getSymbols() * options.getMultSymbol()));
+			result.setScore(result.getScore() + result.getBonus().getAddictions().getSymbols());
 		}
 		if (addictions.getMiddleNumbersOrSymbols() > 0) {
-			result.setScore(result.getScore() + (addictions.getMiddleNumbersOrSymbols() * options.getMultMidChar()));
+			result.getBonus().getAddictions().setMiddleNumbersOrSymbols(addictions.getMiddleNumbersOrSymbols() * options.getMultMidChar());
+			result.setScore(result.getScore() + result.getBonus().getAddictions().getMiddleNumbersOrSymbols());
 		}
 
-		if ((addictions.getLowerLetters() > 0 || addictions.getUpperLetters() > 0) && addictions.getSymbols() == 0 && addictions.getNumbers() == 0) {
-			result.setScore(result.getScore() - addictions.getNumberOfChars());
+
+		// DEDUCTIONS...
+
+		if ((addictions.getLowerLetters() > 0 || addictions.getUpperLetters() > 0) && addictions.getMiddleNumbersOrSymbols() == 0 && addictions.getNumbers() == 0) {
+			result.getBonus().getDeductions().setLettersOnly(-addictions.getNumberOfChars());
+			result.setScore(result.getScore() + result.getBonus().getDeductions().getLettersOnly());
 			deductions.setLettersOnly(addictions.getNumberOfChars());
 		}
 		if (addictions.getLowerLetters() == 0 && addictions.getUpperLetters() == 0 && addictions.getSymbols() == 0 && addictions.getNumbers() > 0) {
-			result.setScore(result.getScore() - addictions.getNumberOfChars());
+			result.getBonus().getDeductions().setNumbersOnly(-addictions.getNumberOfChars());
+			result.setScore(result.getScore() + result.getBonus().getDeductions().getNumbersOnly());
 			deductions.setNumbersOnly(addictions.getNumberOfChars());
 		}
 
 		if (deductions.getRepeatChars() > 0) {
-			result.setScore(result.getScore() - result.getInputs().getControls().getNRepInc());
+			result.getBonus().getDeductions().setRepeatChars((int) -result.getCount().getControls().getNRepInc());
+			result.setScore(result.getScore() + result.getBonus().getDeductions().getRepeatChars());
 		}
 
 		if (deductions.getConsecutiveUpper() > 0) {
-			result.setScore(result.getScore() - (deductions.getConsecutiveUpper() * options.getMultConsecAlphaUC()));
+			result.getBonus().getDeductions().setConsecutiveUpper(-(deductions.getConsecutiveUpper() * options.getMultConsecAlphaUC()));
+			result.setScore(result.getScore() + result.getBonus().getDeductions().getConsecutiveUpper());
 		}
 		if (deductions.getConsecutiveLower() > 0) {
-			result.setScore(result.getScore() - (deductions.getConsecutiveLower() * options.getMultConsecAlphaLC()));
+			result.getBonus().getDeductions().setConsecutiveLower(-(deductions.getConsecutiveLower() * options.getMultConsecAlphaLC()));
+			result.setScore(result.getScore() + result.getBonus().getDeductions().getConsecutiveLower());
 		}
 		if (deductions.getConsecutiveNumbers() > 0) {
-			result.setScore(result.getScore() - (deductions.getConsecutiveNumbers() * options.getMultConsecNumber()));
+			result.getBonus().getDeductions().setConsecutiveNumbers(-(deductions.getConsecutiveNumbers() * options.getMultConsecNumber()));
+			result.setScore(result.getScore() + result.getBonus().getDeductions().getConsecutiveNumbers());
 		}
 
 		if (deductions.getSequentialLetters() > 0) {
-			result.setScore(result.getScore() - (deductions.getSequentialLetters() * options.getMultSeqAlpha()));
+			result.getBonus().getDeductions().setSequentialLetters(-(deductions.getSequentialLetters() * options.getMultSeqAlpha()));
+			result.setScore(result.getScore() + result.getBonus().getDeductions().getSequentialLetters());
 		}
 		if (deductions.getSequentialNumbers() > 0) {
-			result.setScore(result.getScore() - (deductions.getSequentialNumbers() * options.getMultSeqNumber()));
+			result.getBonus().getDeductions().setSequentialNumbers(-(deductions.getSequentialNumbers() * options.getMultSeqNumber()));
+			result.setScore(result.getScore() + result.getBonus().getDeductions().getSequentialNumbers());
 		}
 		if (deductions.getSequentialSymbols() > 0) {
-			result.setScore(result.getScore() - (deductions.getSequentialSymbols() * options.getMultSeqSymbol()));
+			result.getBonus().getDeductions().setSequentialSymbols(-(deductions.getSequentialSymbols() * options.getMultSeqSymbol()));
+			result.setScore(result.getScore() + result.getBonus().getDeductions().getSequentialSymbols());
 		}
 	}
 
@@ -204,7 +221,7 @@ public class PasswordChecker {
 	}
 
 	private void calculateRequirements(String typedText, PasswordCheckResult result, PasswordCheckOptions options) {
-		PasswordCheckAddictions addictions = result.getInputs().getAddictions();
+		PasswordCheckAddictions addictions = result.getCount().getAddictions();
 
 		int[] arrChars = {
 				addictions.getNumberOfChars(),
@@ -222,15 +239,23 @@ public class PasswordChecker {
 		for (int c = 0; c < arrCharsLen; c++) {
 			int minVal = (arrCharsIds[c].equals("numberOfChars")) ? options.getMinLen() - 1 : 0;
 			if (arrChars[c] == minVal + 1) {
-				result.getInputs().getControls().setNReqChar(result.getInputs().getControls().getNReqChar() + 1);
+				result.getCount().getControls().setNReqChar(result.getCount().getControls().getNReqChar() + 1);
 			} else if (arrChars[c] > (minVal + 1)) {
-				result.getInputs().getControls().setNReqChar(result.getInputs().getControls().getNReqChar() + 1);
+				result.getCount().getControls().setNReqChar(result.getCount().getControls().getNReqChar() + 1);
 			}
 		}
-		addictions.setRequirements(result.getInputs().getControls().getNReqChar());
+		addictions.setRequirements(result.getCount().getControls().getNReqChar());
 
 		if (addictions.getRequirements() > nMinReqChars) {
 			result.setScore(result.getScore() + (addictions.getRequirements() * 2));
 		}
+	}
+
+	public static void main(String[] args) {
+		String password = "9876543210";
+//		String password = "29323943423492234249234452452";
+		PasswordCheckResult result = PasswordChecker.getInstance().execute(password);
+		System.out.println("Score: " + result.getScore());
+		System.out.println("Complexity: " + result.getComplexity());
 	}
 }

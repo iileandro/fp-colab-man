@@ -2,21 +2,23 @@ package org.fpcm.util.passwordmeter;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
-@AllArgsConstructor
+@NoArgsConstructor
 public class PasswordCheckOptions {
-	int minLen;
-	int multSeqAlpha;
-	int multSeqNumber;
-	int multSeqSymbol;
-	int multLength;
-	int multNumber;
-	int multSymbol;
-	int multMidChar;
-	int multConsecAlphaUC;
-	int multConsecAlphaLC;
-	int multConsecNumber;
+	int minLen = 8;
+	int multSeqAlpha = 3;
+	int multSeqNumber = 3;
+	int multSeqSymbol = 3;
+	int multLength = 4;
+	int multNumber = 4;
+	int multSymbol = 6;
+	int multMidChar = 2;
+	int multConsecAlphaUC = 2;
+	int multConsecAlphaLC = 2;
+	int multConsecNumber = 2;
+
 }

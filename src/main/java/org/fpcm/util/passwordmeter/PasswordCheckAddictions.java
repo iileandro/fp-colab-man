@@ -15,6 +15,8 @@ public class PasswordCheckAddictions {
 	private int middleNumbersOrSymbols;
 	private int requirements;
 
+	public PasswordCheckAddictions() {}
+
 	public PasswordCheckAddictions(String typedTxt) {
 		this.numberOfChars = typedTxt.length();
 	}

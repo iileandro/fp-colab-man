@@ -5,13 +5,13 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class PasswordCheckInputs {
+public class PasswordCheckCount {
 
 	private PasswordCheckAddictions addictions;
 	private PasswordCheckDeductions deductions;
 	private PasswordCheckControls controls;
 
-	public PasswordCheckInputs(String typedText) {
+	public PasswordCheckCount(String typedText) {
 		this.addictions = new PasswordCheckAddictions(typedText);
 		this.deductions = new PasswordCheckDeductions();
 		this.controls = new PasswordCheckControls();

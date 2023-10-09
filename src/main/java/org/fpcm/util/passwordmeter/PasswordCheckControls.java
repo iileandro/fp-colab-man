@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 public class PasswordCheckControls {
 
-	private int nRepInc;
+	private double nRepInc;
 	private int nSeqChar;
 	private int nReqChar;
 }

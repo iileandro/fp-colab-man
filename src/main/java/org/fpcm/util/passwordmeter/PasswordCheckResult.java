@@ -10,10 +10,13 @@ public class PasswordCheckResult {
 
 	private int score;
 	private PasswordComplexityEnum complexity;
-	private PasswordCheckInputs inputs;
+	private PasswordCheckCount count;
+	private PasswordCheckBonus bonus;
 
 	public PasswordCheckResult(String typedText, PasswordCheckOptions options){
-		this.score = typedText.length() * options.getMultLength();
-		this.inputs = new PasswordCheckInputs(typedText);
+		this.count = new PasswordCheckCount(typedText);
+		this.bonus = new PasswordCheckBonus();
+		this.bonus.getAddictions().setNumberOfChars(typedText.length() * options.getMultLength());
+		this.score = bonus.getAddictions().getNumberOfChars();
 	}
 }
