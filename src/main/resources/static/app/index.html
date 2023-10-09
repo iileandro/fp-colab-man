@@ -18,9 +18,9 @@
 		</header>
 		<main>
 			<div ng-controller="list-control">
-				<h2>{{ titulo }}</h2>
-				<ul>
-					<li ng-repeat="item in lista">{{ item }}</li>
+				<h2>{{ title }}</h2>
+				<ul ng-repeat="item in list">
+					<collab-tree-node node="item"></collab-tree-node>
 				</ul>
 			</div>
 		</main>

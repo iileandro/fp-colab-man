@@ -39,3 +39,32 @@ main h2 {
     padding-top: 0;
 
 }
+
+.percent-box {
+    background: #efefef;
+    border-radius: 5px;
+    padding: 4px 6px;
+}
+.complexity-box {
+    padding: 4px 6px;
+    border-radius: 5px;
+    background-image: url(../images/complexity_bar.jpg);
+    background-position: 0;
+    color: rgba(5,5,5,0.4);
+    font-weight: bold;
+}
+.complexity-box.cb-VERY_WEAK {
+    background-position: 0 0;
+}
+.complexity-box.cb-WEAK {
+    background-position: 30% 0;
+}
+.complexity-box.cb-GOOD {
+    background-position: 50% 0;
+}
+.complexity-box.cb-STRONG {
+    background-position: 70% 0;
+}
+.complexity-box.cb-VERY_STRONG {
+    background-position: 90% 0;
+}
