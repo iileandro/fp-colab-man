@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class Options {
+public class PasswordCheckOptions {
 	int minLen;
 	int multSeqAlpha;
 	int multSeqNumber;

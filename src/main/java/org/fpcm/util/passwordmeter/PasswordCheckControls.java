@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class Controls {
+public class PasswordCheckControls {
 
 	private int nRepInc;
 	private int nSeqChar;

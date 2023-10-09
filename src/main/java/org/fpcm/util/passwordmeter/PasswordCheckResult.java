@@ -6,14 +6,14 @@ import org.fpcm.model.enums.PasswordComplexityEnum;
 
 @Getter
 @Setter
-public class Result {
+public class PasswordCheckResult {
 
 	private int score;
 	private PasswordComplexityEnum complexity;
-	private Inputs inputs;
+	private PasswordCheckInputs inputs;
 
-	public Result(String typedText, Options options){
+	public PasswordCheckResult(String typedText, PasswordCheckOptions options){
 		this.score = typedText.length() * options.getMultLength();
-		this.inputs = new Inputs(typedText);
+		this.inputs = new PasswordCheckInputs(typedText);
 	}
 }

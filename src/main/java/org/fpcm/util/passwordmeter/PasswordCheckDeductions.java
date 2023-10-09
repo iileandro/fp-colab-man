@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class Deductions {
+public class PasswordCheckDeductions {
 
 	private int lettersOnly;
 	private int numbersOnly;

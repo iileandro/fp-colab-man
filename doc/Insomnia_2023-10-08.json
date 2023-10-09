@@ -1,0 +1,194 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_date": "2023-10-09T01:56:31.411Z",
+  "__export_source": "insomnia.desktop.app:v2023.5.6",
+  "resources": [
+    {
+      "_id": "req_4481ae67632e4669ab5916eea866cd1d",
+      "parentId": "wrk_9cd4153bdc7f471a9a796c064991ddd0",
+      "modified": 1696816537799,
+      "created": 1696815689211,
+      "url": "http://localhost:8080/api/v1/collaborator",
+      "name": "COLLAB LIST",
+      "description": "",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "User-Agent",
+          "value": "Insomnia/2023.5.6"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1696811337220,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "wrk_9cd4153bdc7f471a9a796c064991ddd0",
+      "parentId": null,
+      "modified": 1696811322860,
+      "created": 1696811322860,
+      "name": "Collab Pass Manager",
+      "description": "",
+      "scope": "collection",
+      "_type": "workspace"
+    },
+    {
+      "_id": "req_e762c0962a6d4a088ab34f796b877fca",
+      "parentId": "wrk_9cd4153bdc7f471a9a796c064991ddd0",
+      "modified": 1696816540692,
+      "created": 1696813422239,
+      "url": "http://localhost:8080/api/v1/collaborator/1",
+      "name": "COLLAB GET",
+      "description": "",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "User-Agent",
+          "value": "Insomnia/2023.5.6"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1696811337170,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_b2ff9db76d8b4501886f23d747a30571",
+      "parentId": "wrk_9cd4153bdc7f471a9a796c064991ddd0",
+      "modified": 1696816517982,
+      "created": 1696811337120,
+      "url": "http://localhost:8080/api/v1/collaborator",
+      "name": "COLLAB NEW ROOT",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"name\": \"Leandro\",\n\t\"plainPassword\": \"123Mudar\",\n  \"manager\": null\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "User-Agent",
+          "value": "Insomnia/2023.5.6"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1696811337120,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_c31a84ed9c964d60abb83df4c8918022",
+      "parentId": "wrk_9cd4153bdc7f471a9a796c064991ddd0",
+      "modified": 1696816553532,
+      "created": 1696811901397,
+      "url": "http://localhost:8080/api/v1/collaborator",
+      "name": "COLLAB NEW CHILD",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"name\": \"Filho de Leandro, X\",\n\t\"plainPassword\": \"123Mudar\",\n  \"managerId\": 20\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "User-Agent",
+          "value": "Insomnia/2023.5.6"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1691928213293,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_4db9146dedd642e797617bb6e5d03724",
+      "parentId": "wrk_9cd4153bdc7f471a9a796c064991ddd0",
+      "modified": 1696815012403,
+      "created": 1696814971899,
+      "url": "http://localhost:8080/api/v1/collaborator/10",
+      "name": "COLLAB DELETE",
+      "description": "",
+      "method": "DELETE",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "User-Agent",
+          "value": "Insomnia/2023.5.6"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1688265870422.75,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "env_bd3667029b627150aa2967f977dd5e8e269e7b04",
+      "parentId": "wrk_9cd4153bdc7f471a9a796c064991ddd0",
+      "modified": 1696811322863,
+      "created": 1696811322863,
+      "name": "Base Environment",
+      "data": {},
+      "dataPropertyOrder": null,
+      "color": null,
+      "isPrivate": false,
+      "metaSortKey": 1696811322863,
+      "_type": "environment"
+    },
+    {
+      "_id": "jar_bd3667029b627150aa2967f977dd5e8e269e7b04",
+      "parentId": "wrk_9cd4153bdc7f471a9a796c064991ddd0",
+      "modified": 1696811322865,
+      "created": 1696811322865,
+      "name": "Default Jar",
+      "cookies": [],
+      "_type": "cookie_jar"
+    }
+  ]
+}

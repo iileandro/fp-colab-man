@@ -1,13 +1,21 @@
 package org.fpcm.model.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.commons.lang3.StringUtils;
+import org.fpcm.model.dtos.PasswordComplexity;
 import org.fpcm.model.enums.PasswordComplexityEnum;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
+import java.util.List;
 
 @Entity
-@Getter
-@Setter
+@Getter@Setter
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Collaborator {
 
 	@Id
@@ -16,19 +24,42 @@ public class Collaborator {
 
 	private String name;
 
-	private String password;
+	@Transient
+	private String plainPassword;
+
+	private String encryptedPassword;
 
 	@Transient
-	private PasswordComplexityEnum passStrength;
+	private PasswordComplexity passComplexity;
 
 	private int passwordScore;
 
-	private String path;
+	@Lob
+	private String treePath;
 
-	@ManyToOne
+	@JsonIgnore
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Collaborator manager;
 
-	public PasswordComplexityEnum getPassStrength() {
-		return PasswordComplexityEnum.getByScore(this.getPasswordScore());
+	@Column(name="manager_id", insertable = false, updatable = false)
+	private Integer managerId;
+
+	@OneToMany(mappedBy = "manager")
+	@Fetch(FetchMode.JOIN)
+	private List<Collaborator> managedCollaborators;
+
+
+	public PasswordComplexity getPassComplexity() {
+		return new PasswordComplexity(PasswordComplexityEnum.getByScore(this.getPasswordScore()));
+	}
+
+	@JsonIgnore
+	public boolean isValid() {
+		return !StringUtils.isEmpty(this.getName()) && !StringUtils.isEmpty(this.getPlainPassword());
+	}
+
+	public void fillFromUpdate(Collaborator collaboratorFromForm) {
+		this.setName(collaboratorFromForm.getName());
+		this.setPlainPassword(collaboratorFromForm.getPlainPassword());
 	}
 }

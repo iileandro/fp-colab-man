@@ -17,7 +17,7 @@ public class PasswordChecker {
 	private static final String ALPHAS = "abcdefghijklmnopqrstuvwxyz";
 	private static final String NUMERICS = "01234567890";
 	private static final String SYMBOLS = ")!@#$%^&*()";
-	private static final Options DEFAULT_OPTIONS = new Options(8, 3, 3, 3, 4, 4, 6, 2, 2, 2, 2);
+	private static final PasswordCheckOptions DEFAULT_OPTIONS = new PasswordCheckOptions(8, 3, 3, 3, 4, 4, 6, 2, 2, 2, 2);
 
 	public static PasswordChecker getInstance() {
 		return INSTANCE;
@@ -27,15 +27,15 @@ public class PasswordChecker {
 		// Just to be private.
 	}
 
-	public Result execute(String typedTxt) {
+	public PasswordCheckResult execute(String typedTxt) {
 		return execute(typedTxt, DEFAULT_OPTIONS);
 	}
 
-	public Result execute(String typedTxt, Options options) {
-		Result result = null;
+	public PasswordCheckResult execute(String typedTxt, PasswordCheckOptions options) {
+		PasswordCheckResult result = null;
 
 		if (typedTxt != null && !typedTxt.isEmpty()) {
-			result = new Result(typedTxt, options);
+			result = new PasswordCheckResult(typedTxt, options);
 			checkAndRankSymbolsNumericLowerAndUpper(typedTxt, result);
 			checkAndRankSequentials(typedTxt, result, options);
 			modifyOverallScore(result, options);
@@ -46,7 +46,7 @@ public class PasswordChecker {
 		return result;
 	}
 
-	private void checkAndRankSymbolsNumericLowerAndUpper(String typedTxt, Result result) {
+	private void checkAndRankSymbolsNumericLowerAndUpper(String typedTxt, PasswordCheckResult result) {
 		char[] arrPwd = typedTxt.replaceAll("\\s+", "").toCharArray();
 		int arrPwdLen = arrPwd.length;
 		Integer nTmpAlphaUC = null, nTmpAlphaLC = null, nTmpNumber = null;
@@ -105,7 +105,7 @@ public class PasswordChecker {
 		}
 	}
 
-	private void checkAndRankSequentials(String typedTxt, Result result, Options options) {
+	private void checkAndRankSequentials(String typedTxt, PasswordCheckResult result, PasswordCheckOptions options) {
 		for (int s = 0; s <= ALPHAS.length() - options.getMultSeqAlpha(); s++) {
 			String sFwd = limitedSubstr(ALPHAS, s, options.getMultSeqAlpha());
 			String sRev = new StringBuilder(sFwd).reverse().toString();
@@ -138,9 +138,9 @@ public class PasswordChecker {
 		return context.substring(s, s + mult);
 	}
 
-	private void modifyOverallScore(Result result, Options options) {
-		Addictions addictions = result.getInputs().getAddictions();
-		Deductions deductions = result.getInputs().getDeductions();
+	private void modifyOverallScore(PasswordCheckResult result, PasswordCheckOptions options) {
+		PasswordCheckAddictions addictions = result.getInputs().getAddictions();
+		PasswordCheckDeductions deductions = result.getInputs().getDeductions();
 
 		if (addictions.getUpperLetters() > 0 && addictions.getUpperLetters() < addictions.getNumberOfChars()) {
 			result.setScore(result.getScore() + ((addictions.getNumberOfChars() - addictions.getUpperLetters()) * 2));
@@ -192,7 +192,7 @@ public class PasswordChecker {
 		}
 	}
 
-	private void calculateFinalScoreAndComplexity(Result result) {
+	private void calculateFinalScoreAndComplexity(PasswordCheckResult result) {
 		int nScore = result.getScore();
 		if (nScore > 100) {
 			nScore = 100;
@@ -203,8 +203,8 @@ public class PasswordChecker {
 		result.setComplexity(PasswordComplexityEnum.getByScore(result.getScore()));
 	}
 
-	private void calculateRequirements(String typedText, Result result, Options options) {
-		Addictions addictions = result.getInputs().getAddictions();
+	private void calculateRequirements(String typedText, PasswordCheckResult result, PasswordCheckOptions options) {
+		PasswordCheckAddictions addictions = result.getInputs().getAddictions();
 
 		int[] arrChars = {
 				addictions.getNumberOfChars(),

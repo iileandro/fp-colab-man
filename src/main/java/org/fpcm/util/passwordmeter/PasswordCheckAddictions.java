@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class Addictions {
+public class PasswordCheckAddictions {
 
 	private int numberOfChars;
 	private int upperLetters;
@@ -15,7 +15,7 @@ public class Addictions {
 	private int middleNumbersOrSymbols;
 	private int requirements;
 
-	public Addictions(String typedTxt) {
+	public PasswordCheckAddictions(String typedTxt) {
 		this.numberOfChars = typedTxt.length();
 	}
 }
