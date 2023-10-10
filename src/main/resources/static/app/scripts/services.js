@@ -10,7 +10,6 @@ function collaboratorService($http, API_HOST) {
         return $http.put(API_PATH, collaborator);
     };
 
-
     this.list = function() {
         return $http.get(API_PATH);
     };
