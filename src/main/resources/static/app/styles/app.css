@@ -114,12 +114,10 @@ ul.collab-tree, ul.collab-tree ul {
     margin-top: 1px;
     margin-bottom: 1px;
 }
-/*.collab-tree li li  {*/
-/*    padding-bottom: 0;*/
-/*}*/
 
 .btns-container {
     float: right;
+    padding-top: 4px;
 }
 
 .collab-name {

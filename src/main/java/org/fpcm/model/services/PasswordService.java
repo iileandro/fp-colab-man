@@ -17,6 +17,6 @@ public class PasswordService {
 
 	public String encryptFor(Collaborator collaborator) {
 		assert collaborator !=null && collaborator.getPlainPassword() != null;
-		return HashUtils.md5(PSWD_SALT + collaborator.getPlainPassword() + collaborator.getId() + collaborator.getName());
+		return HashUtils.md5(PSWD_SALT + collaborator.getPlainPassword() + collaborator.getId());
 	}
 }

@@ -13,5 +13,6 @@
     app.directive('collabTreeNode', collabTreeNodeDirective);
     app.directive('collabNewForm',  collabNewFormDirective);
     app.directive('collabNewSubForm',  collabNewSubFormDirective);
+    app.directive('collabUpdateForm',  collabUpdateFormDirective);
 
 })();

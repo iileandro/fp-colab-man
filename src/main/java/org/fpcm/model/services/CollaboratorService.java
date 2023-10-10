@@ -1,6 +1,7 @@
 package org.fpcm.model.services;
 
 import lombok.AllArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.fpcm.model.entities.Collaborator;
 import org.fpcm.model.repositories.CollaboratorRepository;
 import org.fpcm.util.passwordmeter.PasswordCheckResult;
@@ -27,7 +28,14 @@ public class CollaboratorService {
 
 	@Transactional
 	public Collaborator insert(Collaborator collaborator){
-		saveRoutines(collaborator);
+		saveAndFlushToGetID(collaborator);
+		proccessPassword(collaborator);
+
+		if(collaborator.getManagerId() != null && collaborator.getManagerId() > 0){
+			collaborator.setManager(findById(collaborator.getManagerId()));
+		}
+		proccessTreePath(collaborator);
+
 		collaborator = repository.save(collaborator);
 		collaborator.setManagedCollaborators(null);
 		return collaborator;
@@ -37,7 +45,10 @@ public class CollaboratorService {
 	public Collaborator update(Collaborator collaboratorFromForm) {
 		Collaborator collaborator = findById(collaboratorFromForm.getId());
 		collaborator.fillFromUpdate(collaboratorFromForm);
-		saveRoutines(collaborator);
+		saveAndFlushToGetID(collaborator);
+		if(!StringUtils.isEmpty(collaborator.getPlainPassword())){
+			proccessPassword(collaborator);
+		}
 		return repository.save(collaborator);
 	}
 
@@ -57,13 +68,8 @@ public class CollaboratorService {
 	}
 
 
-	private void saveRoutines(Collaborator collaborator) {
-		collaborator = repository.saveAndFlush(collaborator); // so we'll be able to get id in the next routine when inserting.
-		proccessPassword(collaborator);
-		if(collaborator.getManagerId() != null && collaborator.getManagerId() > 0){
-			collaborator.setManager(findById(collaborator.getManagerId()));
-		}
-		proccessTreePath(collaborator);
+	private void saveAndFlushToGetID(Collaborator collaborator) {
+		repository.saveAndFlush(collaborator); // so we'll be able to get id in the next routine when inserting.
 	}
 
 	private void proccessTreePath(Collaborator collaborator) {

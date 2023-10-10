@@ -32,7 +32,7 @@ public class CollaboratorController {
 
 	@PostMapping
 	public ResponseEntity<Collaborator> create(@RequestBody Collaborator collaborator){
-		if(collaborator.isValid()){
+		if(collaborator.isValidForCreate()){
 			return ResponseEntity.ok(service.insert(collaborator));
 		}else{
 			return ResponseEntity.badRequest().body(collaborator);
@@ -41,7 +41,7 @@ public class CollaboratorController {
 
 	@PutMapping
 	public ResponseEntity<Collaborator> update(@RequestBody Collaborator collaborator){
-		if(collaborator.isValid() && collaborator.getId() != 0){
+		if(collaborator.isValidForUpdate() && collaborator.getId() != 0){
 			return ResponseEntity.ok(service.update(collaborator));
 		}else{
 			return ResponseEntity.badRequest().body(collaborator);

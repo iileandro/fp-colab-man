@@ -53,8 +53,13 @@ public class Collaborator {
 	}
 
 	@JsonIgnore
-	public boolean isValid() {
+	public boolean isValidForCreate() {
 		return !StringUtils.isEmpty(this.getName()) && !StringUtils.isEmpty(this.getPlainPassword());
+	}
+
+	@JsonIgnore
+	public boolean isValidForUpdate() {
+		return !StringUtils.isEmpty(this.getName());
 	}
 
 	public void fillFromUpdate(Collaborator collaboratorFromForm) {
