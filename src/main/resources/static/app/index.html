@@ -26,6 +26,9 @@
 			<div ng-controller="list-control">
 				<div class="toolbar">
 					<div class="global-actions" ng-show="list.length">
+						collapse/expand all:
+						&nbsp;
+						&nbsp;
 						<button ng-click="toggleAll(false)" title="COLLAPSE ALL">
 							-
 						</button>
@@ -36,7 +39,7 @@
 					<h2>Collaborators</h2>
 				</div>
 				<ul class="collab-tree">
-					<collab-tree-node node="item" ng-repeat="item in list"></collab-tree-node>
+					<collab-tree-node node="item" manager="null" ng-repeat="item in list"></collab-tree-node>
 					<li>
 						<collab-new-form></collab-new-form>
 					</li>

@@ -7,8 +7,11 @@ function collaboratorService($http, API_HOST) {
         return $http.post(API_PATH, collaborator);
     };
 
-
     this.list = function() {
         return $http.get(API_PATH);
+    };
+
+    this.delete = function(id) {
+        return $http.delete(`${API_PATH}/${id}`);
     };
 };
