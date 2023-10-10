@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>org.fpcm</groupId>
-	<artifactId>fp-colab-man</artifactId>
+	<artifactId>fp-collab-man</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>fp-colab-man</name>
-	<description>Ficticious Password Colab Manager</description>
+	<name>fp-collab-man</name>
+	<description>Ficticious Password Collab Manager</description>
 	<properties>
 		<java.version>17</java.version>
 	</properties>

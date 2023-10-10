@@ -15,7 +15,6 @@ import java.util.List;
 
 @Entity
 @Getter@Setter
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Collaborator {
 
 	@Id

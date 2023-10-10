@@ -31,7 +31,7 @@ public class CollaboratorController {
 	}
 
 	@PostMapping
-	public ResponseEntity<Collaborator> save(@RequestBody Collaborator collaborator){
+	public ResponseEntity<Collaborator> create(@RequestBody Collaborator collaborator){
 		if(collaborator.isValid()){
 			return ResponseEntity.ok(service.insert(collaborator));
 		}else{

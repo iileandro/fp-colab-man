@@ -1,8 +1,8 @@
 -- version: 10.2.14-MariaDB (Mysql)
 -- innodb_version: 5.7.21
-CREATE DATABASE `fpcolabman`CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+CREATE DATABASE `fpcollabman`CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
-USE fpcolabman;
+USE fpcollabman;
 
 CREATE TABLE collaborator
 (

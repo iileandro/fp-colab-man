@@ -3,24 +3,43 @@
 	<head>
 		<meta charset="utf-8">
 		<base href="/app/"/>
-		<title>Colab Password Manager</title>
+		<title>Collab Password Manager</title>
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
 		<link type="text/css" href="styles/app.css" rel="stylesheet"/>
 		<link rel="icon" type="image/png" href="images/favicon.png" />
+
 		<script src="scripts/angularjs/1.8.2/angular.min.js"></script>
+
+		<!--Apps' Scripts...-->
+		<script src="scripts/controllers.js"></script>
+		<script src="scripts/directives.js"></script>
+		<script src="scripts/services.js"></script>
 		<script src="scripts/app.js"></script>
 	</head>
 	<body>
 		<header>
 			<h1>
-				Ficticious Password Colab Manager
+				Ficticious Password Collab Manager
 			</h1>
 		</header>
 		<main>
 			<div ng-controller="list-control">
-				<h2>{{ title }}</h2>
-				<ul ng-repeat="item in list">
-					<collab-tree-node node="item"></collab-tree-node>
+				<div class="toolbar">
+					<div class="global-actions" ng-show="list.length">
+						<button ng-click="toggleAll(false)" title="COLLAPSE ALL">
+							-
+						</button>
+						<button ng-click="toggleAll(true)" title="EXPAND ALL">
+							+
+						</button>
+					</div>
+					<h2>Collaborators</h2>
+				</div>
+				<ul class="collab-tree">
+					<collab-tree-node node="item" ng-repeat="item in list"></collab-tree-node>
+					<li>
+						<collab-new-form></collab-new-form>
+					</li>
 				</ul>
 			</div>
 		</main>
